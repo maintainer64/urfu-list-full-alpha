@@ -93,10 +93,7 @@ def split_filter_part(filter_part):
                 if (v0 == value_part[-1] and v0 in ("'", '"', '`')):
                     value = value_part[1: -1].replace('\\' + v0, v0)
                 else:
-                    try:
-                        value = float(value_part)
-                    except ValueError:
-                        value = value_part
+                    value = value_part
 
                 # word operators need spaces after them in the filter string,
                 # but we don't want these later
@@ -117,7 +114,7 @@ def update_table(search):
         col_name, operator, filter_value = split_filter_part(filter_part)
         if operator == 'contains':
             log(col_name, operator, filter_value)
-            dff = dff.loc[dff[col_name].str.contains(filter_value)]
+            dff = dff.loc[dff[col_name].astype(str).str.contains(filter_value)]
 
     if len(q.sort_by):
         dff = dff.sort_values(
