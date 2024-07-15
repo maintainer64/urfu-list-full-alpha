@@ -1,0 +1,13 @@
+version: '3'
+services:
+  app:
+    build:
+      context: urfu-list-priority
+      dockerfile: Dockerfile
+    container_name: urfu-app
+    restart: on-failure
+    ports:
+      - 8050:8050
+    volumes:
+      - .:/opt/app
+    command: bash -c "python3 dash_app.py"
